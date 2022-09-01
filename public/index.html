@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<style>
+    .message {
+        background-color: palevioletred;
+
+
+    }
+
+    body {
+        background-color: lightpink;
+
+
+    }
+
+    .input>input {
+        padding: 0.2em;
+        margin: 0.2em;
+
+    }
+
+    .input>label {
+        display: inline-block;
+        width: 15em;
+        padding: 0.2em;
+    }
+
+    h1 {
+        text-align: center;
+        font-style: italic;
+        background-color: palevioletred;
+    }
+
+    .h2 {
+        background-color: palevioletred;
+    }
+</style>
+
+<body>
+    <h1>API Word Game Widget</h1>
+    <div x-data="{
+        sentence : '',
+        longestWord : '',
+        shortestWord : '',
+        wordCount : 0,
+
+        checkSentence (){
+
+        axios
+             .get(`/api/word_game/?sentence=${this.sentence}`)
+             .then((result) => {
+                //console.log(result.data.longestWord)
+                this.longestWord = result.data.longestWord;
+                this.shortestWord = result.data.shortestWord;
+                this.wordCount = result.data.sum;
+                
+
+             });
+        }
+    }">
+
+    <div>
+
+        <div>
+            <textarea x-model="sentence" name="" id="" cols="60" rows="5"></textarea>
+        </div>
+        <div>
+        <button x-on:click="checkSentence">Check word</button>
+        </div>
+        <div>
+            Longest Word: <span x-text="longestWord"></span>
+        </div>
+        <div>
+            Shortest Word: <span x-text="shortestWord"></span>
+        </div>
+        <div>
+            Word Count:<span x-text="wordCount"></span>
+        </div>
+    
+    
+    </div>
+    </div>
+
+    <h1>API Total Phone bill Widget</h1>
+    <div x-data="{
+        .('totalPhoneBillWidget', function() {
+            return {
+            airtimeUsage: '',
+            airtimeMessage: '0.00',
+            calculate(){
+                //arlet (!);
+                this.airtimeMessage = totalPhoneBill (this.airtimeUsage)
+            }
+            }
+            });
+        })
+
+        axios
+             .get(`/api/word_game/?sentence=${this.sentence}`)
+             .then((result) => {
+        
+                this.airtimeMessage = result.data.airtimeMessage;
+                this.totalPhoneBill = result.data.airtimeMessage;
+                
+                
+
+             });
+        }
+    }">
+
+    <div x-data="totalPhoneBillWidget">
+    <div class="input">
+        <label for="usage">Please enter your string (call or sms)</label>
+        <input type="text" x-model="airtimeUsage" id="usage">
+    </div>
+
+    <div>
+    <button x-on:click="calculate">Calculate Phone Bill </button>
+</div>
+<div class="message" x-text="airtimeMessage">
+</div>
+    </div>
+</div>
+
+<h1>API Enough Airtime Widget</h1>
+<div x-data="{
+    ('enough_airtime/api', function() {
+        return {
+            airtimeUsage : '',
+            availableAmount : '',
+            airtimeMessage : '',
+            calculate(){
+            this.airtimeMessage = enoughAirtime (this.airtimeUsage, this.availableAmount)
+            }
+        }
+    });
+})
+
+    axios
+         .get(`/api/enough_airtime/?sentence=${this.sentence}`)
+         .then((result) => {
+    
+            this.airtimeUsage = result.data.airtimeMessage;
+            this.availableAmount = result.data.airtimeMessage;
+            
+            
+            
+
+         });
+    }
+}">
+
+<div class="input">
+    <label for="usage">Please enter your airtime usage:</label>
+    <input type="text" x-model="airtimeUsage" id="usage">
+</div>
+<div class="input">
+    <label for="amount">Amount available:</label>
+    <input type="text" x-model="availableAmount" id="amount">
+</div>
+<div class="message" x-text="airtimeMessage">
+</div>
+<button x-on:click="calculate">Calculate airtime usage</button>
+
+
+<div x-data="{
+ airtimeUsage: '',
+airtimeMessage: '',
+calculate(){
+    //arlet (!)
+    this.airtimeMessage = totalPhoneBill (this.airtimeUsage)
+
+ setTimeout (() => {
+        this.airtimeUsage = '';
+        this.airtimeMessage= '';
+    },3000);
+}
+}">
+<div x-data="{
+    shift: '',
+    message: '',
+    showFee: false,
+    showFee (){
+        this.message = transportFee (this.shift)
+        setTimeout (() => {
+            this.shift= '';
+            this.message = '';
+            this.showFee= '';
+           
+        },3000);
+    }
+}">
+<h1>API Transport Fee Widget</h1>
+
+<div x-data="transportFeeWidget">
+
+    <div class="message" x-text="message">Your fee will be displayed here...</div>
+    <label for="shift">Please enter your shift (morning, afternoon or night):</label>
+    <input type="text" x-model="shift" id="shift">
+</div>
+    <button x-on:click="showFee">Enter</button>
+</div>
+
+</body>
+
+</html>
