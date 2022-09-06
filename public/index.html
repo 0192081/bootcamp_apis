@@ -45,6 +45,7 @@
 </style>
 
 <body>
+    <h1> My API Widgets</h1>
     <h1>API Word Game Widget</h1>
     <div x-data="{
         sentence : '',
@@ -91,27 +92,17 @@
 
     <h1>API Total Phone bill Widget</h1>
     <div x-data="{
-        .('totalPhoneBillWidget', function() {
-            return {
-            airtimeUsage: '',
-            airtimeMessage: '0.00',
-            calculate(){
-                //arlet (!);
-                this.airtimeMessage = totalPhoneBill (this.airtimeUsage)
-            }
-            }
-            });
-        })
-
+        totalPhoneBillWidget', function() {
+        console.log(totalCost)
         axios
-             .get(`/api/word_game/?sentence=${this.sentence}`)
+             .get(`http://localhost:6007/api/phonebill/prices`,{
+                prices:this.prices
+
+             })
              .then((result) => {
         
-                this.airtimeMessage = result.data.airtimeMessage;
-                this.totalPhoneBill = result.data.airtimeMessage;
-                
-                
-
+                this.call = result.data.call;
+                this.sms = result.data.sms;
              });
         }
     }">
@@ -145,15 +136,12 @@
 })
 
     axios
-         .get(`/api/enough_airtime/?sentence=${this.sentence}`)
+         .get(`/api/enough_airtime/?airtimeUsage=${this.airtimeUsage, this.availableAmount}`)
          .then((result) => {
     
             this.airtimeUsage = result.data.airtimeMessage;
-            this.availableAmount = result.data.airtimeMessage;
+            this.availableAmount = result.data.availableAmount;
             
-            
-            
-
          });
     }
 }">

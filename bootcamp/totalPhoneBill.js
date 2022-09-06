@@ -1,4 +1,4 @@
-function totalPhoneBill(myBill){
+export default function totalPhoneBill(myBill){
     //var call=2.75;
     //var sms=0.65;
     var totalCost=0;

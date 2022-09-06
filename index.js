@@ -5,8 +5,8 @@ import longestWord from './bootcamp/longestWord.js'
 import shortestWord from './bootcamp/shortestWord.js'
 import wordLengths from './bootcamp/wordLengths.js'
 import totalPhoneBill from './bootcamp/totalPhoneBill.js'
-import transportFee from './bootcamp/transportFee.js'
 import enoughAirtime from './bootcamp/enoughAirtime.js'
+import transportFee from './bootcamp/transportFee.js'
 
 const app = express();
 
@@ -28,7 +28,29 @@ console.log(sentence)
     });
 });
 
-const PORT = 6007;
+app.get('/api/phone_bill', function (req, res){
+    const totalPhoneBill = req.query.totalPhoneBill;
+console.log(airtimeMessage)
+    
+    res.json({
+        "totalPhoneBill" : airtimeUsage(airtimeMessage),
+
+    
+    });
+});
+
+app.get('/api/enough_airtime', function (req, res){
+    const enoughAirtime = req.query.availableAmount;
+console.log(availableAmount)
+    
+    res.json({
+        "enoughAirtime" : airtimeUsage(availableAmount),
+
+    
+    });
+});
+
+const PORT = process.env.PORT || 6007;
 app.listen (PORT,function(){
     console.log('api started on port', PORT)
 })
