@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="//unpkg.com/alpinejs" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A=="crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <style>
     .message {
@@ -68,134 +69,92 @@
         }
     }">
 
-    <div>
+        <div>
 
-        <div>
-            <textarea x-model="sentence" name="" id="" cols="60" rows="5"></textarea>
-        </div>
-        <div>
-        <button x-on:click="checkSentence">Check word</button>
-        </div>
-        <div>
-            Longest Word: <span x-text="longestWord"></span>
-        </div>
-        <div>
-            Shortest Word: <span x-text="shortestWord"></span>
-        </div>
-        <div>
-            Word Count:<span x-text="wordCount"></span>
-        </div>
-    
-    
-    </div>
-    </div>
+            <div>
+                <textarea x-model="sentence" name="" id="" cols="60" rows="5"></textarea>
+            </div>
+            <div>
+                <button x-on:click="checkSentence">Check word</button>
+            </div>
+            <div>
+                Longest Word: <span x-text="longestWord"></span>
+            </div>
+            <div>
+                Shortest Word: <span x-text="shortestWord"></span>
+            </div>
+            <div>
+                Word Count:<span x-text="wordCount"></span>
+            </div>
 
-    <h1>API Total Phone bill Widget</h1>
-    <div x-data="{
-        totalPhoneBillWidget', function() {
-        console.log(totalCost)
+
+        </div>
+    </div>
+    <h1>Total Phone Bill Widget</h1>
+    <div class="widget" x-data="{
+    myBill:'',
+    billMessage:'',
+    phoneBill(){
         axios
-             .get(`http://localhost:6007/api/phonebill/prices`,{
-                prices:this.prices
-
-             })
-             .then((result) => {
-        
-                this.call = result.data.call;
-                this.sms = result.data.sms;
-             });
-        }
-    }">
-
-    <div x-data="totalPhoneBillWidget">
-    <div class="input">
-        <label for="usage">Please enter your string (call or sms)</label>
-        <input type="text" x-model="airtimeUsage" id="usage">
-    </div>
-
-    <div>
-    <button x-on:click="calculate">Calculate Phone Bill </button>
-</div>
-<div class="message" x-text="airtimeMessage">
-</div>
-    </div>
-</div>
-
-<h1>API Enough Airtime Widget</h1>
-<div x-data="{
-    ('enough_airtime/api', function() {
-        return {
-            airtimeUsage : '',
-            availableAmount : '',
-            airtimeMessage : '',
-            calculate(){
-            this.airtimeMessage = enoughAirtime (this.airtimeUsage, this.availableAmount)
-            }
-        }
-    });
-})
-
-    axios
-         .get(`/api/enough_airtime/?airtimeUsage=${this.airtimeUsage, this.availableAmount}`)
-         .then((result) => {
+        .get(`/api/phonebill/total?myBill=${this.myBill}`)
+        .then((result)=>{
+            this.billMessage=result.data.bill;
+            setTimeout(()=>{
+                this.billMessage='';
+            },3000);            });
+    }        }">           
     
-            this.airtimeUsage = result.data.airtimeMessage;
-            this.availableAmount = result.data.availableAmount;
-            
-         });
-    }
-}">
+    <div x-show="billMessage.length > 0" class="message" x-text="billMessage">
+            Your bill will be displayed here....
+        </div>
+        <div class="input">
+            <label for="myBill">Please enter a string: </label>
+            <input type="text" placeholder="call,sms" x-model="myBill" id="myBill">
+        </div>
+        <div class="cont"><button x-on:click="phoneBill">Calculate bill</button></div>
+    </div>        
 
-<div class="input">
-    <label for="usage">Please enter your airtime usage:</label>
-    <input type="text" x-model="airtimeUsage" id="usage">
-</div>
-<div class="input">
-    <label for="amount">Amount available:</label>
-    <input type="text" x-model="availableAmount" id="amount">
-</div>
-<div class="message" x-text="airtimeMessage">
-</div>
-<button x-on:click="calculate">Calculate airtime usage</button>
+   
+        <h1>Enough Airtime Widget</h1>       
+         <div class="widget" x-data="{
+                            sentence: '',
+                            airtimeUsage: '',
+                            availableAmount: '',
+                            message: '',
+                            airtimeMessage: '',
+                            itemUsed: '',                         
+                            billDue() {
+                                axios.post(`/api/enoughAirtime`, {
+                                        airtimeUsage: this.airtimeUsage,
+                                        availableAmount: this.availableAmount
+                                })
+                                  .then((result) => {
+                                    console.log(result.data)
+                                    this.airtimeUsage = result.data.result;
+                                    this.message = `Amount of airtime left: ${result.data.result}`
+                                  });
+                                  setTimeout(()=>{
+                                    this.airtimeUsage = '';
+                                    this.airtimeAvailable = '';
+                                    this.airtimeMessage = '';
+                                  },3000)
+                              }}">
+            <div x-show="message.length>0" class="message" x-text="message">
+                Your total bill will be displayed here ...
+            </div>
+            <div class="input ">
+                <label for="bill"> Available Airtime: </label>
+                <input type="number" id="airtime" placeholder="Airtime here" x-model="availableAmount">
+            </div>            <div class="input ">
+                <label for="bill"> Please enter your bill: </label>
+                <input type="text" id="bill" placeholder="items here" x-model="airtimeUsage">
+            </div>
+            <div>
+                <button class="btn" x-on:click="billDue"> Calulate bill</button>
+            </div>
+        </div>
+    </div>
 
-
-<div x-data="{
- airtimeUsage: '',
-airtimeMessage: '',
-calculate(){
-    //arlet (!)
-    this.airtimeMessage = totalPhoneBill (this.airtimeUsage)
-
- setTimeout (() => {
-        this.airtimeUsage = '';
-        this.airtimeMessage= '';
-    },3000);
-}
-}">
-<div x-data="{
-    shift: '',
-    message: '',
-    showFee: false,
-    showFee (){
-        this.message = transportFee (this.shift)
-        setTimeout (() => {
-            this.shift= '';
-            this.message = '';
-            this.showFee= '';
-           
-        },3000);
-    }
-}">
-<h1>API Transport Fee Widget</h1>
-
-<div x-data="transportFeeWidget">
-
-    <div class="message" x-text="message">Your fee will be displayed here...</div>
-    <label for="shift">Please enter your shift (morning, afternoon or night):</label>
-    <input type="text" x-model="shift" id="shift">
-</div>
-    <button x-on:click="showFee">Enter</button>
-</div>
 
 </body>
 
