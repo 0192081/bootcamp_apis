@@ -52,7 +52,7 @@
         sentence : '',
         longestWord : '',
         shortestWord : '',
-        wordCount : 0,
+        wordCount : '',
 
         checkSentence (){
 
@@ -63,6 +63,12 @@
                 this.longestWord = result.data.longestWord;
                 this.shortestWord = result.data.shortestWord;
                 this.wordCount = result.data.sum;
+                setTimeout(()=>{
+                    this.sentence = '';
+                    this.longestWord = '';
+                    this.shortestWord = '';
+                    this.wordCount='';
+                  },3000)
                 
 
              });
@@ -101,6 +107,8 @@
             this.billMessage=result.data.bill;
             setTimeout(()=>{
                 this.billMessage='';
+                this.myBill='';
+                this.billMessage='';
             },3000);            });
     }        }">           
     
@@ -137,6 +145,9 @@
                                     this.airtimeUsage = '';
                                     this.airtimeAvailable = '';
                                     this.airtimeMessage = '';
+                                    this.availableAmount='';
+                                    this.message='';
+                                    this.itemUsed
                                   },3000)
                               }}">
             <div x-show="message.length>0" class="message" x-text="message">
